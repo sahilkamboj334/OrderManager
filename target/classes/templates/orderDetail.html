@@ -1,0 +1,84 @@
+<div ng-controller="orderDetail">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="pull-right">
+				<button class="btn btn-success" ng-click="addOrder()"
+					style="margin-top: 3px; margin-bottom: 10px">+Add</button>
+				<a class="btn btn-info" href="/orders"
+					style="margin-top: 3px; margin-bottom: 10px">Close</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" style="margin-left: 45px;">
+			<label style="display: contents;">Date </label> <input class=""
+				type="date" max="{{today}}" ng-model="orderHash.orderDate"> <label
+				style="display: contents;">Select Distributor </label>
+				<select
+				class="form-control"
+				ng-model="orderHash.distributor" ng-options="distributor.distributorName for distributor in activeDistributors">
+				</select> <label 
+				style="display: contents;">Order Status <select
+				class="form-control"
+				ng-options="o as o for o in ['Pending','Delivered']"
+				ng-model="orderHash.orderStatus"></select>
+			</label> <label style="display: contents;">Select Manufacture </label><select
+				class="form-control"
+				ng-model="selected" ng-change="onSelectChange()" ng-options="manufacture.name for manufacture in manufactureList">
+				</select>
+			<label style="display: contents;">Delivery Charge </label> <input
+				class="" type="number" ng-model="orderHash.orderDeliveryCharge"><br><br>
+			<label style="display: contents;">Is Payment Done</label> <input type="checkbox"
+			 ng-model="orderHash.isPaymentDone" ng-checked="orderHash.isPaymentDone" ng-true-value="true" ng-false-value="false">
+		</div>
+	</div>
+	<br>
+	<div ng-show="!productList.length"><label style="color: red;margin-left: 45px;display: inline-block;">No Data to Display</label></div>
+	<div>
+		<div ng-show="manufactureSelect && productList.length" class="product-list" style="display: inline-block;">
+			<label style="margin-left: 20px;"><b>Add Item To Cart</b></label>
+			<label ng-show="isDirty" style="color: red;">Please Enter Input *</label>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Order Qty</th>
+						<th>Product Cost(Per Item)</th>
+						<th>Product Selling Price (Per Item)</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="product in productList">
+						<td>{{product.productName}}</td>
+						<td><input type="number" ng-attr-id="{{product.productCode}}"
+							placeholder="Qty"/></td>
+						<td>{{product.productCost}}</td>
+						<td>{{product.productSellingPrice}}</td>
+						<td><button class="btn btn-success" ng-attr-id="{{'btn'+product.productCode}}"
+								ng-click="addOrderDetail(product)">Add</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div ng-show="manufactureSelect && productList.length" class="cart-list" style="display: inline-block;" >
+			<label style="margin-left: 20px;"><b>Cart Items&nbsp| Total Cart Cost : {{cartValue}}</b></label>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Order Qty</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="order in orderList">
+						<td>{{order.product.productName}}</td>
+						<td>{{order.qty}}&nbsp&nbsp|&nbsp&nbsp<i class="fa fa-close"
+							ng-click="removeOrder(order)" style="cursor: pointer;"></i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div class="form" ng-controller="login">
+	<img class="img" src="images/register.png" alt="Avatar"
+		style="width: 100px"><br> 
+		<input class="login"
+		ng-model="newuser.phoneNumber" type="number" maxlength="10"
+		placeholder="Phone Number*" /><br>
+		<input class="login"
+		ng-model="newuser.name" type="text" maxlength="10"
+		placeholder="Name*" /><br>
+		<input class="login"
+		ng-model="newuser.emailID" type="text" 
+		placeholder="Email ID" /><br> <input class="login"
+		ng-model="newuser.password" type="password" placeholder="Password*" /><br>
+		<button class="signup" ng-click="signup()">Sign Up</button><br>
+		<a href="/login">Back To Login</a>
+		</div>

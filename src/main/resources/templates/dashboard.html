@@ -1,0 +1,42 @@
+<div ng-controller="dashboard" style="text-align: center;">
+<div class="box">
+<b>{{totalOrder}}</b>
+<br><br>
+<b>Total Orders Done</b>
+</div>
+<div class="box">
+<b>{{totalProfitEarned}}</b>
+<br><br>
+<b>Total Profit Earned</b>
+</div>
+<div class="box">
+<b>{{totalPendingPayment}}</b>
+<br><br>
+<b>Total Payment Pending</b>
+</div>
+<div class="box">
+<b>{{totalOrderPending}}</b>
+<br><br>
+<b>Delivery Pending Orders</b>
+</div>
+<div style="margin-top: 100px;">
+<label style="text-align: left;margin-left: 15px;"><b>Pending Payments Detail</b></label>
+<table class="table table-striped">
+<thead>
+<tr>
+<th>Distributor Name</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+</tr>
+<tr ng-repeat="pendingOrder in pendingPaymentList" ng-show="pendingPaymentList.length">
+<td>{{pendingOrder.distributor.distributorName}}</td>
+<td>{{pendingOrder.orderPrice+pendingOrder.orderDeliveryCharge}}</td>
+<td><i class="fa fa-thumbs-up" style="color:green; cursor: pointer; font-size: 20px;" ng-click="updateOrder(pendingOrder)"></i></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>

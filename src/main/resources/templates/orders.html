@@ -1,0 +1,65 @@
+
+	<div ng-controller="order">
+		<div class="row">
+			<div class="pull-right col-md-6">
+				<a class="btn btn-info" href="/orderAdd"
+					style="margin-top: 10px; margin-bottom: 10px">+Add</a>
+			</div>
+		</div>
+
+		<div id="confirm" class="modal" ng-show="isDelete">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button class="close" type="button" ng-click="isDelete=false">&times;</button>
+						<h4 class="modal-title">Add Product</h4>
+					</div>
+					<div class="modal-body">
+						<span>Are you sure you want to Delete?</span>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-warning" ng-click="remove()">Yes</button>
+						&nbsp&nbsp&nbsp
+						<button class="btn btn-info" ng-click="isDelete=false">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<input class="table-search" type="text" placeholder="Search" ng-model="searchKey">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Order Date</th>
+					<th>Order Status</th>
+					<th>Distributor Name</th>
+					<th>Total Items</th>
+					<th>Total Cost</th>
+					<th>Total Price</th>
+					<th>Profit</th>
+					<th>Delivery Charges</th>
+					<th>Payment Status</th>
+					<th>Payment To Take | Taken</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="order in orderedList | filter:searchKey">
+					<td>{{order.orderDate}}</td>
+					<td>{{order.orderStatus}}</td>
+					<td>{{order.distributor.distributorName}}</td>
+					<td><span ng-bind="total(order);"></span></td>
+					<td>{{order.orderCost}}</td>
+					<td>{{order.orderPrice}}</td>
+					<td>{{order.orderProfit}}</td>
+					<td>{{order.orderDeliveryCharge}}</td>
+					<td><span ng-bind="order.isPaymentDone?'Done':'Pending'"></span></td>
+					<td><span ng-bind="order.orderPrice+order.orderDeliveryCharge"></span></td>
+					<td><i class="fa fa-edit"
+						style="margin-left: 10px; cursor: pointer;"
+						ng-click="loadSelected(order)"></i><i class="fa fa-trash"
+						style="margin-left: 10px; cursor: pointer;"
+						ng-click="confirm(order)"</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>

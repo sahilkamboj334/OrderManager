@@ -1,0 +1,15 @@
+.upper {
+    float:up; 
+    width: 100%;
+    background-color: #ffffff;
+     overflow-y: auto;
+    height: 50%;
+}
+
+.bottom {
+float: down;
+    background-color: #ffffff;
+     overflow-y: auto;
+    height: 50%;
+    width: 100%;
+}

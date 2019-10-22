@@ -1,0 +1,53 @@
+<div ng-controller="orderUpdate">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="pull-right">
+				<button class="btn btn-success" ng-click="updateOrder()"
+					style="margin-top: 3px; margin-bottom: 10px">Update</button>
+				<a class="btn btn-info" href="/orders"
+					style="margin-top: 3px; margin-bottom: 10px">Close</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6" style="margin-left: 45px;">
+			<label style="display: contents;">Date </label> <input class=""
+				type="text" ng-model="orderDtl.orderDate" disabled="disabled"> <label
+				style="display: contents;">To Distributor </label>
+				<input class=""
+				type="text" ng-model="orderDtl.distributor.distributorName" disabled="disabled">
+				 <label
+				style="display: contents;">Order Status <select
+				class="form-control"
+				ng-options="o as o for o in ['Pending','Delivered']"
+				ng-model="orderDtl.orderStatus"></select>
+			</label>
+			<label style="display: contents;">Delivery Charge </label> <input
+				class="" type="number" ng-model="orderDtl.orderDeliveryCharge" disabled="disabled"><br><br>
+			<label style="display: contents;">Is Payment Done</label> <input type="checkbox"
+			 ng-model="orderDtl.isPaymentDone" ng-checked="orderDtl.isPaymentDone" ng-true-value="true" ng-false-value="false">
+		</div>
+	</div>
+	<br>
+		<div style="display: inline-block;">
+			<label style="margin-left: 20px"><b>Ordered Items</b></label>
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Order Qty</th>
+						<th>Total Cost(Qty*Product Cost)</th>
+						<th>Total Price(Qty*Product Price)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="orderDetail in orderDtl.orderDetailsArray">
+						<td>{{orderDetail.product.productName}}</td>
+						<td>{{orderDetail.qty}}</td>
+						<td>{{orderDetail.cost}}</td>
+						<td>{{orderDetail.price}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>

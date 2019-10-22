@@ -1,0 +1,10 @@
+<div class="form" ng-controller="login">
+			<img class="img" src="images/avatar.png" alt="Avatar"
+				style="width: 100px"><br> <input class="login"
+				ng-model="user.phoneNumber" type="number" maxlength="10"
+				placeholder="Phone Number" /><br> <input class="login"
+				ng-model="user.password" type="password" placeholder="Password" /><br>
+			<button class="submit" ng-click="validate()">Log In</button>
+			<br>
+			<button class="signup" ng-click="navigate('/signup')">Sign Up</button>
+		</div>

@@ -2,13 +2,11 @@
 package com.inventory;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 @SpringBootApplication(scanBasePackages = { "com.inventory.controllers", "com.inventory.service", "com.inventory.beans",
-"com.inventory.factory" })
-@EnableAutoConfiguration
+"com.inventory.factory","com.inventory.aspects" })
 public class ServletInitializer {
 
 	/*

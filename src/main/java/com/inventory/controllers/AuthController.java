@@ -2,7 +2,9 @@ package com.inventory.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.inventory.beans.AuthUser;
 import com.inventory.beans.Notification;
 import com.inventory.service.DBService;
+import com.inventory.util.HashUtil;
 
 @Controller
 public class AuthController {
 
 	@Autowired
 	HttpSession httpSession;
+	
 	@Autowired
 	DBService service;
 
@@ -45,7 +49,9 @@ public class AuthController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/register")
 	@ResponseBody
 	public Notification register(@RequestBody AuthUser authUser) {
-		if (authUser != null && exist(authUser) == null) {
+		if (authUser != null && !exist(authUser)) {
+			String key=HashUtil.secureHash(authUser.password);
+			authUser.password=key;
 			service.save(authUser);
 			return new Notification("User registered successfully!", Notification.NotifyType.SUCCESS.type());
 		} else {
@@ -64,23 +70,32 @@ public class AuthController {
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/validate")
 	@ResponseBody
 	public Notification validateLogin(@RequestBody AuthUser authUser) {
-		AuthUser user = exist(authUser);
+		AuthUser user = validateUser(authUser);
 		if (user != null) {
 			httpSession.setAttribute("user", user);
 			httpSession.setMaxInactiveInterval(600);
-			return new Notification("true", Notification.NotifyType.SUCCESS.type()).setUser(user);
+			return new Notification("true", Notification.NotifyType.SUCCESS.type());
 		} else {
 			return new Notification("No User Exist with given info.", Notification.NotifyType.ERROR.type());
 		}
 	}
-
-	private AuthUser exist(AuthUser authUser) {
+	private boolean exist(AuthUser authUser) {
+		if(authUser==null) {
+			return false;
+		}
+		Session dbSesssion = service.dbFactory.getSession();
+		Criteria criteria=dbSesssion.createCriteria(AuthUser.class);
+		criteria.add(Restrictions.eq("name", authUser.name));
+		java.util.List<?> result= criteria.list();
+		return result.size()>0;
+	}
+	private AuthUser validateUser(AuthUser authUser) {
 		if(authUser==null) {
 			return null;
 		}
 		Session dbSesssion = service.dbFactory.getSession();
 		java.util.List<?> result= dbSesssion.createNamedQuery("validateUser").setParameter("phoneNumber", authUser.phoneNumber)
-				.setParameter("password", authUser.password).getResultList();
+				.setParameter("password", HashUtil.secureHash(authUser.password)).getResultList();
 		if (result.size() > 0)
 			return (AuthUser)result.get(0);
 		else

@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.annotation.Order;
 
@@ -20,12 +21,12 @@ public class RequestFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
+		HttpServletResponse httpServletResponse=(HttpServletResponse)response;
 		if (servletRequest.getSession(false) != null && servletRequest.getSession(false).getAttribute("user") != null) {
 			System.out.println("Request User is--->"+((AuthUser)servletRequest.getSession(false).getAttribute("user")).name+" url "+servletRequest.getServletPath());
 			chain.doFilter(servletRequest, response);
 		} else {
-			servletRequest.getRequestDispatcher(servletRequest.getContextPath() + "/login").forward(servletRequest,
-					response);
+			httpServletResponse.sendRedirect(servletRequest.getContextPath() + "/login");
 		}
 	}
 }

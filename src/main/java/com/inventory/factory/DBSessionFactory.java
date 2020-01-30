@@ -21,7 +21,6 @@ public class DBSessionFactory {
 	@Bean
 	public void configure() {
 		sessionFactory = factory.unwrap(SessionFactory.class);
-
 	}
 	
 
@@ -35,7 +34,6 @@ public class DBSessionFactory {
 	}
 	
 	public synchronized Session getSession() {
-		
 		if(session==null) {
 			session=sessionFactory.openSession();
 		}

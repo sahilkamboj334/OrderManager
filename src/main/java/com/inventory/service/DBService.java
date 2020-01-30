@@ -9,6 +9,7 @@ import com.inventory.factory.DBSessionFactory;
 
 @Service
 public class DBService{
+	
 	@Autowired 
 	public DBSessionFactory dbFactory;
 

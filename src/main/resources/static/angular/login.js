@@ -65,6 +65,8 @@ loginModule.controller("login",function($rootScope,$scope,$window,$http,growl,$l
 			notify({'message':'Please fill required data.','type':'error'});
 			return;
 		}
+		let re1=new RegExp("(?=.*[a-zA-Z])(?=.*[0-9]){6}");
+		if(re1.test(obj.password)){
 		postAjax("/register",$scope.newuser,{"Content-Type":"application/json"},function(resp){
 			if(resp.status==200){
 				notify(resp.data);
@@ -73,6 +75,10 @@ loginModule.controller("login",function($rootScope,$scope,$window,$http,growl,$l
 			}
 
 		});
+		}else{
+			notify({'message':'Password should be alphanumeric.!!!','type':'error'});
+			return;
+		}
 	}
 	let postAjax=(url,data,headers,callback)=>{
 		$http({
